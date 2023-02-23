@@ -7,7 +7,10 @@ import './assets/fonts/iconfont.css'
 import axios from 'axios'
 
 axios.defaults.baseURL='http://127.0.0.1:8888/api/private/v1/'
-
+axios.interceptors.request.use(req=>{
+  req.headers.Authorization=window.sessionStorage.getItem('token')
+  return req
+})
 Vue.config.productionTip = false
 
 Vue.prototype.$http=axios

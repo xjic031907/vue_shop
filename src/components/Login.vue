@@ -18,7 +18,7 @@
         <!-- 按钮 -->
         <el-form-item class="btns">
           <el-button type="primary" @click="login">登录</el-button>
-          <el-button type="info" @click='resetloginform'>清空</el-button>
+          <el-button type="info" @click="resetloginform">清空</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -26,39 +26,41 @@
 </template>
 
 <script>
-import { Message } from 'element-ui';
+import { Message } from "element-ui";
 
 export default {
   data() {
     return {
       form: {
-        username: "",
-        password: ""
+        username: "admin",
+        password: "123456"
       },
       loginrules: {
         username: [
           { required: true, message: "请输入用户名", trigger: "blur" },
           { min: 3, max: 10, message: "长度在3-10个字符", trigger: "blur" }
         ],
-        password: [{ required: true, message: "请输入密码", trigger: "blur" },
-          { min: 6, max: 15, message: "长度在6-15个字符", trigger: "blur" }]
+        password: [
+          { required: true, message: "请输入密码", trigger: "blur" },
+          { min: 6, max: 15, message: "长度在6-15个字符", trigger: "blur" }
+        ]
       }
     };
   },
-  methods:{
-    resetloginform(){
-      this.$refs.loginformref.resetFields()
+  methods: {
+    resetloginform() {
+      this.$refs.loginformref.resetFields();
     },
-    login(){
-      this.$refs.loginformref.validate(async(val)=>{
-        if(!val)return
-        const {data:res}=await this.$http.post('login',this.form)
-        if(res.meta.status!=200)return Message.error('登陆失败')
-        Message.success('登陆成功')
+    login() {
+      this.$refs.loginformref.validate(async val => {
+        if (!val) return;
+        const { data: res } = await this.$http.post("login", this.form);
+        if (res.meta.status != 200) return Message.error("登陆失败");
+        Message.success("登陆成功");
         // 登陆成功后保存token,并跳转
-        window.sessionStorage.setItem('token',res.data.token)
-        this.$router.push('/home')
-      })
+        window.sessionStorage.setItem("token", res.data.token);
+        this.$router.push("/home");
+      });
     }
   }
 };
